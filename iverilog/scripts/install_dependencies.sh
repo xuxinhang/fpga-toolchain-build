@@ -2,14 +2,14 @@
 
 case $ARCH in
 'windows-i686')
-	pacman -S --noconfirm mingw-w64-i686-gcc
-	pacman -S --noconfirm automake make autoconf gperf flex bison
-	pacman -S --noconfirm libbz2 libbz2-devel
+	$SHORT_PACAPT_S mingw-w64-i686-gcc
+	$SHORT_PACAPT_S automake make autoconf gperf flex bison
+	$SHORT_PACAPT_S libbz2 libbz2-devel
 	;;
 'windows-x86_64')
-	pacman -S --noconfirm mingw-w64-x86_64-gcc
-	pacman -S --noconfirm automake make autoconf gperf flex bison
-	pacman -S --noconfirm libbz2 libbz2-devel
+	$SHORT_PACAPT_S mingw-w64-x86_64-gcc
+	$SHORT_PACAPT_S automake make autoconf gperf flex bison
+	$SHORT_PACAPT_S libbz2 libbz2-devel
 	;;
 'linux_x86')
 	;;
