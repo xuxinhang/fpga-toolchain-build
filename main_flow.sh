@@ -3,7 +3,6 @@
 # Task Configuration
 AVAILABLE_ARCHITECTURE=('mingw32-w64-x86_64' 'mingw32-w64-i686' 'linux-x86_64' 'linux-i686')
 _BUILD_LIST=('iverilog' 'verilator')
-export ARCH='mingw32-w64-x86_64'
 
 if [[ ! $ARCH ]]
 then
@@ -11,7 +10,7 @@ then
     exit 1
 fi
 
-export BUILD_LIST=${BUILD_LIST-${_BUILD_LIST[0]}}
+export BUILD_LIST=${BUILD_LIST-${_BUILD_LIST[*]}}
 
 
 # use pacman interface
