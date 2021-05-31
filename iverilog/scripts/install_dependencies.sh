@@ -2,4 +2,4 @@
 
 $SHORT_PACAPT_S make autoconf flex bison gperf
 
-setup_gcc
+setup_gcc $ARCH

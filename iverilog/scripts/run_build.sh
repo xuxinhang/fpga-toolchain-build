@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-cd repo
-autoconf && ./configure --prefix $TOOL_PKT_DIR
+cd $TOOL_DIR_REPO
+autoconf && ./configure --prefix $TOOL_DIR_INSTALL
 make
 make test
 make install

@@ -1,5 +1,6 @@
 
 setup_gcc () {
+    ARCH=$1
     # DO_INSTALL=${$1:-1}
     # DO_SETENV=${$2:-1}
     case $ARCH in
@@ -27,3 +28,19 @@ setup_gcc () {
         echo 'Unknown ARCH.'
     esac
 }
+
+refresh_directory () {
+    DIR=$1
+    FORCE=$2
+    if [ -e $DIR ]
+    then
+        if [ $FORCE -gt 0 ]
+        then
+            rm -rf $DIR
+            mkdir $DIR
+        fi
+    else
+        mkdir $DIR
+    fi
+}
+

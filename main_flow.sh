@@ -2,18 +2,19 @@
 
 # Task Configuration
 AVAILABLE_ARCHITECTURE=('mingw32-w64-x86_64' 'mingw32-w64-i686' 'linux-x86_64' 'linux-i686')
-_BUILD_LIST=('iverilog' 'verilator')
 
-if [[ ! $ARCH ]]
-then
-    echo 'Must provide ARCH.'
-    exit 1
-fi
+_BUILD_TOOLS=('iverilog' 'verilator')
+_BUILD_ARCHS=('mingw32-w64-i686' 'mingw32-w64-x86_64')
 
-export BUILD_LIST=${BUILD_LIST-${_BUILD_LIST[*]}}
+BUILD_TOOLS=${BUILD_TOOLS-${_BUILD_TOOLS[*]}}
+BUILD_ARCHS=${BUILD_ARCHS-${_BUILD_ARCHS[*]}}
+
+PROJ_ROOT_DIR=$(pwd)
 
 
-# use pacman interface
+# Utilities
+
+# use pacman style interface
 if [ -z $(which pacapt) ]
 then
     mkdir -p /usr/local/bin
@@ -22,48 +23,59 @@ then
     ln -sv /usr/local/bin/pacapt /usr/local/bin/pacman || true
 fi
 
+# universal pacman shortcut
 SHORT_PACAPT_S='pacapt -S -y --needed --noconfirm '
 
+# others
 . ./utils.sh
 
 
 # Task Start
-export PROJ_ROOT_DIR=`pwd`
-
-for t in ${BUILD_LIST[*]}
+for TOOL_NAME in ${BUILD_TOOLS[*]}
 do
-    echo '======= Flow Start: '$t' ======='
-    export TOOL_NAME=$t
-    export TOOL_ROOT_DIR=$PROJ_ROOT_DIR'/'$TOOL_NAME
-    export TOOL_PKT_DIR=$TOOL_ROOT_DIR/pkt
-    export TOOL_REPO_DIR=$TOOL_ROOT_DIR/repo
-    export TOOL_TMP_DIR=$TOOL_ROOT_DIR/tmp
-    cd $TOOL_ROOT_DIR
+    TOOL_DIR_ROOT=$PROJ_ROOT_DIR'/'$TOOL_NAME
+    cd $TOOL_DIR_ROOT
 
-    if [ -e tmp ]; then rm tmp -rf; fi
-    mkdir tmp
+    TOOL_DIR_INSTALL=$TOOL_DIR_ROOT/_install
+    TOOL_DIR_REPO=$TOOL_DIR_ROOT/_repo
+    TOOL_DIR_TMP=$TOOL_DIR_ROOT/_tmp
+    TOOL_DIR_PACKAGE=$TOOL_DIR_ROOT/_package
 
-    echo '>> Fetching source ...'
-    cd $TOOL_ROOT_DIR
-    if [ ! -e repo ]
-    then
-        rm -rf repo
+    refresh_directory $TOOL_DIR_PACKAGE 0
+
+    for ARCH in ${BUILD_ARCHS[*]}
+    do
+        echo ''
+        echo 'BUILD START >>==============='
+        echo "  $TOOL_NAME  ($ARCH)"
+        echo '============================='
+        echo ''
+        refresh_directory $TOOL_DIR_INSTALL 1
+        refresh_directory $TOOL_DIR_TMP 1
+
+        echo '>> Fetching source ...'
+        cd $TOOL_DIR_ROOT
         . ./scripts/fetch_source.sh
-    fi
 
-    echo '>> Installing dependencies ...'
-    cd $TOOL_ROOT_DIR && . ./scripts/install_dependencies.sh
+        echo '>> Installing dependencies ...'
+        cd $TOOL_DIR_ROOT
+        . ./scripts/install_dependencies.sh
 
-    echo '>> Building ...'
-    if [ -e pkt ]; then rm pkt -rf; fi
-    mkdir pkt
-    cd $TOOL_ROOT_DIR && . ./scripts/run_build.sh
+        echo '>> Building ...'
+        cd $TOOL_DIR_ROOT
+        . ./scripts/run_build.sh
 
-    echo '>> Testing ...'
-    cd $TOOL_ROOT_DIR && . ./scripts/run_test.sh
+        echo '>> Testing ...'
+        cd $TOOL_DIR_ROOT
+        . ./scripts/run_test.sh
 
-    echo '>> Bundling ...'
-    cd $TOOL_ROOT_DIR && true
+        echo '>> Moving ...'
+        cd $TOOL_DIR_ROOT
+        refresh_directory $TOOL_DIR_PACKAGE'/'$ARCH 1
+        cp -rfT $TOOL_DIR_INSTALL $TOOL_DIR_PACKAGE'/'$ARCH
 
-    echo '======= Flow End  : '$t' ======='
+        echo ''
+        echo 'BUILD FINISHED >>============'
+        echo ''
+    done
 done

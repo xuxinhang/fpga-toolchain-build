@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
 
-cd repo
-autoconf && ./configure --prefix $TOOL_PKT_DIR
-ln /usr/include/FlexLexer.h /mingw64/include -f
+cd $TOOL_DIR_REPO
+autoconf && ./configure --prefix $TOOL_DIR_INSTALL
+
+case $ARCH in
+'mingw32-w64-i686')
+    ln -f /usr/include/FlexLexer.h /mingw64/include
+    ;;
+'mingw32-w64-x86_64')
+    ln -f /usr/include/FlexLexer.h /mingw32/include
+    ;;
+esac
+
 make
 make test
 make install

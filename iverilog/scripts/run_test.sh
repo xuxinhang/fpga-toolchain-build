@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cp ./scripts/*.?v ./tmp
-cd tmp
+cp ./scripts/*.?v $TOOL_DIR_TMP
+cd $TOOL_DIR_TMP
 
-../pkt/bin/iverilog -tnull -g2005-sv testcase_a.sv
+$TOOL_DIR_INSTALL/bin/iverilog -tnull -g2005-sv testcase_a.sv

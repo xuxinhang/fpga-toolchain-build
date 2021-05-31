@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cp ./scripts/*.?v ./tmp
-cd tmp
+cp ./scripts/*.?v $TOOL_DIR_TMP
+cd $TOOL_DIR_TMP
 
-../pkt/bin/verilator --lint-only testcase_a.sv
+$TOOL_DIR_INSTALL/bin/verilator --lint-only testcase_a.sv
