@@ -32,9 +32,9 @@ setup_gcc () {
 refresh_directory () {
     DIR=$1
     FORCE=$2
-    if [ -e $DIR ]
+    if [[ -e $DIR ]]
     then
-        if [ $FORCE -gt 0 ]
+        if [[ $FORCE -gt 0 ]]
         then
             rm -rf $DIR
             mkdir $DIR

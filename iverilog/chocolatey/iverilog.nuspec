@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>iverilog</id>
+    <version>__REPLACE_VERSION__</version>
+    <packageSourceUrl>https://github.com/steveicarus/iverilog</packageSourceUrl>
+    <owners>xuxinhang</owners>
+
+    <title>Icarus Verilog (Install)</title>
+    <authors>Stephen Williams</authors>
+    <projectUrl>http://iverilog.icarus.com/</projectUrl>
+    <iconUrl>http://cdn.rawgit.com/__REPLACE_YOUR_REPO__/master/icons/hello_choco.png</iconUrl><!-- TODO -->
+    <projectSourceUrl>https://github.com/steveicarus/iverilog</projectSourceUrl>
+    <docsUrl>http://iverilog.wikia.com/</docsUrl>
+    <tags>verilog simulator HDL</tags>
+    <summary>Icarus Verilog is a Verilog simulation and synthesis tool.</summary>
+    <description>Icarus Verilog is a Verilog simulation and synthesis tool. It operates as a compiler, compiling source code written in Verilog (IEEE-1364) into some target format. </description>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>
