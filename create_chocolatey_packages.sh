@@ -15,9 +15,11 @@ do
     TOOL_DIR_CHOCO=$TOOL_DIR_ROOT/_choco
     refresh_directory $TOOL_DIR_CHOCO
 
+    echo '>> Preparing Files ...'
     cd $TOOL_DIR_ROOT
     . ./scripts/prepare_chocolatey_package.sh
 
+    echo '>> Packing ...'
     cd $TOOL_DIR_CHOCO
     choco pack $TOOL_DIR_CHOCO/*.nuspec
 done

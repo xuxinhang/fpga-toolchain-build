@@ -29,6 +29,7 @@ setup_gcc () {
     esac
 }
 
+
 refresh_directory () {
     DIR=$1
     FORCE=$2
@@ -44,3 +45,20 @@ refresh_directory () {
     fi
 }
 
+
+get_msys_dlls () {
+    file_path=$1
+    win_root_path=$SYSTEMROOT
+    paths=$(ntldd -R $file_path | grep '=>' | grep --invert-match $(echo $win_root_path | sed 's/\\/\\\\/') | sed -E 's/\s*?(.*?) => (.*?) \(.*?\)/\2/')
+    return paths
+}
+
+
+generate_win_bat_slim () {
+    file_name=$1
+    if [[ $(head -c2 $file_name) = '#!' ]]
+    then
+        interpreter=$(echo $(head -n1 $file_name)| sed -E 's/.*\/(env\s*|)(.*?)$/\2/')
+        echo '@'$interpreter' %~dp0\'$file_name' %*' >> $file_name.bat
+    fi
+}
