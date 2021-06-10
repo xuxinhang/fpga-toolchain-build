@@ -5,10 +5,10 @@ autoconf && ./configure --prefix $TOOL_DIR_INSTALL
 
 case $ARCH in
 'mingw32-w64-i686')
-    ln -f /usr/include/FlexLexer.h /mingw64/include
+    ln -f /usr/include/FlexLexer.h /mingw32/include
     ;;
 'mingw32-w64-x86_64')
-    ln -f /usr/include/FlexLexer.h /mingw32/include
+    ln -f /usr/include/FlexLexer.h /mingw64/include
     ;;
 esac
 
