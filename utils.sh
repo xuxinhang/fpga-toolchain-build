@@ -49,8 +49,8 @@ refresh_directory () {
 get_msys_dlls () {
     file_path=$1
     win_root_path=$SYSTEMROOT
-    paths=$(ntldd -R $file_path | grep '=>' | grep --invert-match $(echo $win_root_path | sed 's/\\/\\\\/') | sed -E 's/\s*?(.*?) => (.*?) \(.*?\)/\2/')
-    return paths
+    paths=$(ntldd -R $file_path | grep '=>' | grep --invert-match 'not found' | grep --invert-match $(echo $win_root_path | sed 's/\\/\\\\/') | sed -E 's/\s*?(.*?) => (.*?) \(.*?\)/\2/')
+    echo $paths
 }
 
 

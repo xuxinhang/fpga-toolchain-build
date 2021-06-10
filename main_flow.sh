@@ -55,7 +55,10 @@ do
 
         echo '>> Fetching source ...'
         cd $TOOL_DIR_ROOT
-        . ./scripts/fetch_source.sh
+        if [[ ! -e $TOOL_DIR_REPO ]]
+        then
+            . ./scripts/fetch_source.sh
+        fi
 
         echo '>> Installing dependencies ...'
         cd $TOOL_DIR_ROOT
@@ -63,16 +66,47 @@ do
 
         echo '>> Building ...'
         cd $TOOL_DIR_ROOT
-        . ./scripts/run_build.sh
+        if [[ -e _install_cache/$ARCH ]]
+        then
+            cp -r _install_cache/$ARCH/* $TOOL_DIR_INSTALL
+        else
+            . ./scripts/run_build.sh
+        fi
+
+        # DEBUG ONLY
+        cd $TOOL_DIR_ROOT
+        if [[ ! -e _install_cache/$ARCH ]]
+        then
+            cp -rT $TOOL_DIR_INSTALL _install_cache/$ARCH
+        fi
+
+        echo '>> Attaching other files to install directory ...'
+        cd $TOOL_DIR_ROOT
+        . ./scripts/attach_files.sh
 
         echo '>> Testing ...'
         cd $TOOL_DIR_ROOT
         . ./scripts/run_test.sh
 
-        echo '>> Moving ...'
+        echo '>> Moving & Bundling ...'
         cd $TOOL_DIR_ROOT
-        refresh_directory $TOOL_DIR_PACKAGE'/'$ARCH 1
-        cp -rfT $TOOL_DIR_INSTALL $TOOL_DIR_PACKAGE'/'$ARCH
+        move_target_dir=$TOOL_DIR_PACKAGE/$ARCH
+        refresh_directory $move_target_dir 1
+        cp -rfT $TOOL_DIR_INSTALL $move_target_dir
+        cd $move_target_dir
+        bundle_file_name=../$TOOL_NAME.$ARCH
+        rm -f $bundle_file_name.*
+        case $ARCH in
+        'mingw32-w64-i686'|'mingw32-w64-x86_64')
+            zip -rq $bundle_file_name.zip *
+            echo "Bundled to $bundle_file_name.zip"
+            ;;
+        *)
+            tar -czf $bundle_file_name.tar.gz *
+            echo "Bundled to $bundle_file_name.tar.gz"
+            ;;
+        esac
+        cd $TOOL_DIR_PACKAGE
 
         echo ''
         echo 'BUILD FINISHED >>============'
