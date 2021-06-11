@@ -18,6 +18,7 @@ setup_gcc () {
         $SHORT_PACAPT_S gcc
         export CC='gcc -m32'
         export CXX='g++ -m32'
+        export LD='ld -melf_i386'
         ;;
     'linux-x86_64')
         $SHORT_PACAPT_S gcc

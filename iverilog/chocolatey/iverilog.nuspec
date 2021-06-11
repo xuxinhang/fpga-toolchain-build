@@ -3,13 +3,13 @@
   <metadata>
     <id>iverilog</id>
     <version>__REPLACE_VERSION__</version>
-    <packageSourceUrl>https://github.com/steveicarus/iverilog</packageSourceUrl>
+    <packageSourceUrl>https://gitee.com/xuxinhang/fpga-toolchain-build</packageSourceUrl>
     <owners>xuxinhang</owners>
 
-    <title>Icarus Verilog (Install)</title>
+    <title>Icarus Verilog</title>
     <authors>Stephen Williams</authors>
     <projectUrl>http://iverilog.icarus.com/</projectUrl>
-    <iconUrl>http://cdn.rawgit.com/__REPLACE_YOUR_REPO__/master/icons/hello_choco.png</iconUrl><!-- TODO -->
+    <iconUrl>http://www.geda-project.org/graphics/icarus-icon.png</iconUrl>
     <projectSourceUrl>https://github.com/steveicarus/iverilog</projectSourceUrl>
     <docsUrl>http://iverilog.wikia.com/</docsUrl>
     <tags>verilog simulator HDL</tags>

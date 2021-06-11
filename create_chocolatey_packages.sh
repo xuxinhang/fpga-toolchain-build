@@ -1,5 +1,5 @@
 
-_BUILD_TOOLS=('iverilog')
+_BUILD_TOOLS='iverilog verilator'
 BUILD_TOOLS=${BUILD_TOOLS-${_BUILD_TOOLS[*]}}
 
 PROJ_ROOT_DIR=$(pwd)
@@ -13,7 +13,8 @@ do
     TOOL_DIR_REPO=$TOOL_DIR_ROOT/_repo
     TOOL_DIR_PACKAGE=$TOOL_DIR_ROOT/_package
     TOOL_DIR_CHOCO=$TOOL_DIR_ROOT/_choco
-    refresh_directory $TOOL_DIR_CHOCO
+    refresh_directory $TOOL_DIR_CHOCO 1
+    cd $TOOL_DIR_ROOT
 
     echo '>> Preparing Files ...'
     cd $TOOL_DIR_ROOT

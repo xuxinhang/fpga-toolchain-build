@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>verilator</id>
+    <version>__REPLACE_VERSION__</version>
+    <packageSourceUrl>https://gitee.com/xuxinhang/fpga-toolchain-build</packageSourceUrl>
+    <owners>xuxinhang</owners>
+
+    <title>Verilator</title>
+    <authors>Wilson Snyder</authors>
+    <projectUrl>https://www.veripool.org/verilator/</projectUrl>
+    <iconUrl>https://avatars.githubusercontent.com/u/51796581</iconUrl>
+    <projectSourceUrl>https://github.com/verilator/verilator/</projectSourceUrl>
+    <docsUrl>https://veripool.org/verilator/documentation/</docsUrl>
+    <bugTrackerUrl>https://verilator.org/issues</bugTrackerUrl>
+    <tags>verilog simulator HDL</tags>
+    <summary>Verilator: open-source SystemVerilog simulator and lint system.</summary>
+    <description>The Verilator package converts Verilog and SystemVerilog hardware description language (HDL) designs into a C++ or SystemC model that after compiling can be executed. Verilator is not a traditional simulator, but a compiler. </description>
+    <dependencies>
+      <dependency id="StrawberryPerl" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>
