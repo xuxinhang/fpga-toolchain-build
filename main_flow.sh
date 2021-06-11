@@ -55,10 +55,7 @@ do
 
         echo '>> Fetching source ...'
         cd $TOOL_DIR_ROOT
-        if [[ ! -e $TOOL_DIR_REPO ]]
-        then
-            . ./scripts/fetch_source.sh
-        fi
+        . ./scripts/fetch_source.sh
 
         echo '>> Installing dependencies ...'
         cd $TOOL_DIR_ROOT
@@ -73,11 +70,14 @@ do
             . ./scripts/run_build.sh
         fi
 
+        TOOL_BUILD_VERSION_IDENTIFY=$(source ./scripts/get_version_identify.sh)
+
         # DEBUG ONLY
         cd $TOOL_DIR_ROOT
         if [[ ! -e _install_cache/$ARCH ]]
         then
-            cp -rT $TOOL_DIR_INSTALL _install_cache/$ARCH
+            cp -r $TOOL_DIR_INSTALL _install_cache/$ARCH
+            echo 'Saved to _install_cache.'
         fi
 
         echo '>> Attaching other files to install directory ...'
@@ -94,7 +94,7 @@ do
         refresh_directory $move_target_dir 1
         cp -rfT $TOOL_DIR_INSTALL $move_target_dir
         cd $move_target_dir
-        bundle_file_name=../$TOOL_NAME.$ARCH
+        bundle_file_name=../$TOOL_NAME-$ARCH-$TOOL_BUILD_VERSION_IDENTIFY
         rm -f $bundle_file_name.*
         case $ARCH in
         'mingw32-w64-i686'|'mingw32-w64-x86_64')

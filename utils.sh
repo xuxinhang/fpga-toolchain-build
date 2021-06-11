@@ -55,10 +55,12 @@ get_msys_dlls () {
 
 
 generate_win_bat_slim () {
-    file_name=$1
-    if [[ $(head -c2 $file_name) = '#!' ]]
+    file_path=$1
+    work_path=${2-`pwd`}
+    file_rela=$(realpath --relative-to=$work_path $file_path)
+    if [[ $(head -c2 $file_path) = '#!' ]]
     then
-        interpreter=$(echo $(head -n1 $file_name)| sed -E 's/.*\/(env\s*|)(.*?)$/\2/')
-        echo '@'$interpreter' %~dp0\'$file_name' %*' >> $file_name.bat
+        interpreter=$(echo $(head -n1 $file_path) | sed -E 's/.*\/(env\s*|)(.*?)$/\2/')
+        echo '@'$interpreter' %~dp0\'$(echo $file_rela | sed 's/\//\\/g')' %*' >> $work_path/$(basename $file_path).bat
     fi
 }
