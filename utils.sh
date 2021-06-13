@@ -16,6 +16,8 @@ setup_gcc () {
         ;;
     'linux-i686')
         $SHORT_PACAPT_S gcc
+        $SHORT_PACAPT_S lib32-gcc-libs # Arch Linux
+        $SHORT_PACAPT_S gcc-multilib g++-multilib # Ubuntu
         export CC='gcc -m32'
         export CXX='g++ -m32'
         export LD='ld -melf_i386'
@@ -24,6 +26,7 @@ setup_gcc () {
         $SHORT_PACAPT_S gcc
         export CC='gcc -m64'
         export CXX='g++ -m64'
+        export LD=''
         ;;
     *)
         echo 'Unknown ARCH.'
