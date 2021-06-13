@@ -8,6 +8,7 @@ cp -f $TOOL_DIR_REPO/{COPYING,README.txt,QUICK_START.txt,BUGS.txt} $docs_dir_pat
 case $ARCH in
 'mingw32-w64-i686'|'mingw32-w64-x86_64')
     # attach msys dlls
+    install_ntldd $ARCH
     dlls=''
     for sf in $(find $TOOL_DIR_INSTALL/{bin,lib} -type f)
     do

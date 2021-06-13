@@ -16,6 +16,8 @@ setup_gcc () {
         ;;
     'linux-i686')
         $SHORT_PACAPT_S gcc
+        $SHORT_PACAPT_S lib32-gcc-libs # Arch Linux
+        $SHORT_PACAPT_S gcc-multilib g++-multilib # Ubuntu
         export CC='gcc -m32'
         export CXX='g++ -m32'
         export LD='ld -melf_i386'
@@ -24,6 +26,7 @@ setup_gcc () {
         $SHORT_PACAPT_S gcc
         export CC='gcc -m64'
         export CXX='g++ -m64'
+        export LD=''
         ;;
     *)
         echo 'Unknown ARCH.'
@@ -52,6 +55,20 @@ get_msys_dlls () {
     win_root_path=$SYSTEMROOT
     paths=$(ntldd -R $file_path | grep '=>' | grep --invert-match 'not found' | grep --invert-match $(echo $win_root_path | sed 's/\\/\\\\/') | sed -E 's/\s*?(.*?) => (.*?) \(.*?\)/\2/')
     echo $paths
+}
+
+install_ntldd () {
+    arch=$1
+    case $arch in
+    'mingw32-w64-i686')
+        $SHORT_PACAPT_S -Sy mingw-w64-i686-ntldd-git
+    ;;
+    'mingw32-w64-x86_64')
+        $SHORT_PACAPT_S -Sy mingw-w64-x86_64-ntldd-git
+    ;;
+    *)
+    ;;
+    esac
 }
 
 

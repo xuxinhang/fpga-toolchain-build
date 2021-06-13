@@ -13,18 +13,33 @@ PROJ_ROOT_DIR=$(pwd)
 
 
 # Utilities
-
-# use pacman style interface
-if [ -z $(which pacapt) ]
+if [[ -n $(which sudo) ]]
 then
-    mkdir -p /usr/local/bin
-    wget -O /usr/local/bin/pacapt https://github.com/icy/pacapt/raw/ng/pacapt
-    chmod 755 /usr/local/bin/pacapt
-    ln -sv /usr/local/bin/pacapt /usr/local/bin/pacman || true
+    MAYBE_SUDO=sudo
+else
+    MAYBE_SUDO=''
 fi
 
 # universal pacman shortcut
-SHORT_PACAPT_S='pacapt -S -y --needed --noconfirm '
+
+# try various package managers to find an avaliable one.
+if [[ -n $(which pacman) ]]
+then
+    SHORT_PACAPT_S="$MAYBE_SUDO pacman -S -y --needed --noconfirm "
+elif [[ -n $(which apt) ]]
+then
+    SHORT_PACAPT_S="$MAYBE_SUDO apt-get install -y "
+else
+    # use pacapt instead 
+    if [ -z $(which pacapt) ]
+    then
+        $MAYBE_SUDO mkdir -p /usr/local/bin
+        $MAYBE_SUDO wget -O /usr/local/bin/pacapt https://github.com/icy/pacapt/raw/ng/pacapt
+        $MAYBE_SUDO chmod 755 /usr/local/bin/pacapt
+        $MAYBE_SUDO ln -sv /usr/local/bin/pacapt /usr/local/bin/pacman || true
+    fi
+    SHORT_PACAPT_S="$MAYBE_SUDO pacapt -S -y --noconfirm "
+fi
 
 # others
 . ./utils.sh
@@ -68,17 +83,15 @@ do
             cp -r _install_cache/$ARCH/* $TOOL_DIR_INSTALL
         else
             . ./scripts/run_build.sh
+            # DEBUG ONLY
+            cd $TOOL_DIR_ROOT
+            refresh_directory _install_cache 0
+            cp -r $TOOL_DIR_INSTALL _install_cache/$ARCH
+            echo 'Saved to _install_cache.'
         fi
 
         TOOL_BUILD_VERSION_IDENTIFY=$(source ./scripts/get_version_identify.sh)
 
-        # DEBUG ONLY
-        cd $TOOL_DIR_ROOT
-        if [[ ! -e _install_cache/$ARCH ]]
-        then
-            cp -r $TOOL_DIR_INSTALL _install_cache/$ARCH
-            echo 'Saved to _install_cache.'
-        fi
 
         echo '>> Attaching other files to install directory ...'
         cd $TOOL_DIR_ROOT
