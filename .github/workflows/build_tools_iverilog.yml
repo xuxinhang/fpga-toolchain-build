@@ -20,13 +20,13 @@ jobs:
       - name: Run the build script
         run: |
           set MSYSTEM=MINGW64
-          C:\msys64\usr\bin\bash.exe -lc "cd $GITHUB_WORKSPACE && export BUILD_ARCHS='mingw32-w64-x86_64' && bash ./main_flow.sh"
+          C:\msys64\usr\bin\bash.exe -lc "cd $GITHUB_WORKSPACE && export BUILD_ARCHS='mingw32-w64-x86_64' && bash main_flow.sh"
           set MSYSTEM=MINGW32
-          C:\msys64\usr\bin\bash.exe -lc "cd $GITHUB_WORKSPACE && export BUILD_ARCHS='mingw32-w64-i686' && bash ./main_flow.sh"
+          C:\msys64\usr\bin\bash.exe -lc "cd $GITHUB_WORKSPACE && export BUILD_ARCHS='mingw32-w64-i686' && bash main_flow.sh"
       - name: Bundle the chocolatey package
-        run: C:\msys64\usr\bin\bash.exe -lc "cd $GITHUB_WORKSPACE && bash ./create_chocolatey_packages.sh"
+        run: C:\msys64\usr\bin\bash.exe -lc "cd $GITHUB_WORKSPACE && bash create_chocolatey_packages.sh"
       - name: Publish packages
-        run: C:\msys64\usr\bin\bash.exe -lc "echo 'Published, somewhat...' && ls ./iverilog/_choco && ls ./iverilog/_package"
+        run: C:\msys64\usr\bin\bash.exe -lc "cd $GITHUB_WORKSPACE && bash publish_github_release.sh"
   
   build4linux:
     runs-on: ubuntu-latest
@@ -40,6 +40,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run the build script
-        run: cd $GITHUB_WORKSPACE && bash ./main_flow.sh
+        run: cd $GITHUB_WORKSPACE && bash main_flow.sh
       - name: Publish packages
-        run: echo 'Published, somewhat...' && ls ./iverilog/_package
+        run: cd $GITHUB_WORKSPACE && bash publish_github_release.sh
