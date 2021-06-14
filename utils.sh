@@ -59,12 +59,13 @@ get_msys_dlls () {
 
 install_ntldd () {
     arch=$1
+    echo $arch
     case $arch in
     'mingw32-w64-i686')
-        $SHORT_PACAPT_S -Sy mingw-w64-i686-ntldd-git
+        $SHORT_PACAPT_S mingw-w64-i686-ntldd-git
     ;;
     'mingw32-w64-x86_64')
-        $SHORT_PACAPT_S -Sy mingw-w64-x86_64-ntldd-git
+        $SHORT_PACAPT_S mingw-w64-x86_64-ntldd-git
     ;;
     *)
     ;;
