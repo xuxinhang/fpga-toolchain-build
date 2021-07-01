@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+
+. ./utils.sh
 
 URL_PREFIX='https://api.github.com/repos/xuxinhang/fpga-toolchain-build'
 http_header_accept="Accept: application/vnd.github.v3+json"
@@ -41,10 +44,9 @@ upload_release_asset () {
 }
 
 
-release_tag="BUILD_DATE_$(date -u +"%Y%m%d")"
-
 for TOOL_NAME in ${BUILD_TOOLS[*]}
 do
+    release_tag=$(get_release_tag $TOOL_NAME $(source `pwd`/$TOOL_NAME/scripts/get_version_identify.sh))
     upload_release_asset $release_tag "$(ls `pwd`/$TOOL_NAME/{_package/*.*,_choco/*.nupkg})"
 done
 

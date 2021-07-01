@@ -1,2 +1,1 @@
-version_desc="$(git -C $TOOL_DIR_REPO describe || echo 'UNKNOWN_VERSION')"
-echo $version_desc
+echo "$(git -C $(dirname "${BASH_SOURCE[0]}")/../_repo describe || echo 'UNKNOWN_VERSION')"

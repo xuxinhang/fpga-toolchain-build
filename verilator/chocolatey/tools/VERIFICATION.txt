@@ -1,0 +1,12 @@
+VERIFICATION
+
+Verification is intended to assist the Chocolatey moderators and community
+in verifying that this package's contents are trustworthy.
+
+The original binary releases have been submitted to the release page of this package's Github repository.
+
+1. Please visit the following URL for the corresponding binary files:
+
+    https://github.com/xuxinhang/fpga-toolchain-build/releases/tag/__RELEASE_TAG_NAME__
+
+2. Use Chocolatey utility 'checksum.exe' to obtain the checksum. Then verify it.

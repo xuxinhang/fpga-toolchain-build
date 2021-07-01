@@ -1,4 +1,10 @@
 
+get_release_tag () {
+    tool_name=$1
+    tool_version=$2
+    echo "workflow_build__${tool_name}_${tool_version}_$(date -u +"%Y%m%d")"
+}
+
 setup_gcc () {
     ARCH=$1
     # DO_INSTALL=${$1:-1}
